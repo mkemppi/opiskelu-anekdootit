@@ -8,19 +8,30 @@ const Button = ({ handleClick, text }) => (
 )
 
 const App = (props) => {
+
   const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState(Array(anecdotes.length).fill(0))
+  const copy = [...points]
 
   const handleClick = () => {
     const min = 0;
     const max = anecdotes.length;
-    const rand = Math.floor(Math.random() * (max - min));
+    const rand = Math.floor(Math.random() * (max - min)); 
     setSelected(rand)
+  }
+
+  const handleLikeClick = () => {
+    copy[selected] += 1 
+    setPoints(copy)   
   }
 
   return (
     <div>
-      {props.anecdotes[selected]}<br/><br/>
+      <b>{props.anecdotes[selected]}</b><br/>
+      Ääniä {copy[selected]}<br/><br/>
       <Button handleClick={handleClick} text="Seuraava anekdootti" />
+      <Button handleClick={handleLikeClick} text="Äänestä" />
+
     </div>
   )
 }
