@@ -10,6 +10,7 @@ const Button = ({ handleClick, text }) => (
 const App = (props) => {
 
   const [selected, setSelected] = useState(0)
+  const [mostVoted, setMostVoted] = useState(0)
   const [points, setPoints] = useState(Array(anecdotes.length).fill(0))
   const copy = [...points]
 
@@ -25,13 +26,28 @@ const App = (props) => {
     setPoints(copy)   
   }
 
+  const MostVoted = () => {
+    let mostVoted = ""
+    let lastVote = 0
+    points.map(function(vote, i){
+      if(vote>lastVote) {
+        setMostVoted(vote)
+        mostVoted = <div>{anecdotes[i]}<br/><b>{vote} ääntä</b></div>
+        lastVote = vote
+      }
+    })
+    return mostVoted
+  }
   return (
     <div>
+      <h3>Päivän anekdootti</h3>
       <b>{props.anecdotes[selected]}</b><br/>
       Ääniä {copy[selected]}<br/><br/>
       <Button handleClick={handleClick} text="Seuraava anekdootti" />
       <Button handleClick={handleLikeClick} text="Äänestä" />
-
+      <br/><br/>
+      <h3>Eniten ääniä saanut anekdootti</h3>
+      <MostVoted/>
     </div>
   )
 }
